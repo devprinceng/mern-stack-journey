@@ -4,6 +4,6 @@ const usersController = require('../controllers/UsersController'); //import the 
 const usersRouter = express.Router();
 
 //register endpoint
-usersRouter.post('/api/v1/users/register', usersController.register)
-
+usersRouter.post('/api/v1/users/register', usersController.register) //register
+usersRouter.post('/api/v1/users/login', usersController.login) //login
 module.exports = usersRouter;

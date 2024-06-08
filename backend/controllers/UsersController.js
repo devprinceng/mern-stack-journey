@@ -3,6 +3,7 @@ const User = require('../model/User');
 //initialize packages
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler')
+const jwt = require('jsonwebtoken')
 
 //users controller
 const usersController = {
@@ -42,6 +43,29 @@ const usersController = {
         })
     }),
 
+    //login method
+    login: asyncHandler (async (req, res ) => {
+        //get data
+        const {email, password } = req.body;
+        //check if user exist
+        const user = await User.findOne({email});
+        if(!user) throw new Error('Email or Password does not exitst');
+
+        //check if password matches
+        const isMatch = await bcrypt.compare(password, user.password)
+        if(!isMatch){
+            throw new Error('Email or Password does not exists')
+        }
+    
+        // generate token
+        const token = jwt.sign({id:user._id}, process.env.JWT_SECRET_KEY, {expiresIn:'7d'}) //generate token with unique user id
+        res.json({
+            "message": 'logged in successfully',
+            "token": token,
+            "email": user.email,
+            id: user._id
+        })
+    })
 }
 
 module.exports = usersController;
