@@ -2,6 +2,7 @@ require("dotenv").config()
 const express = require("express");
 const { default: mongoose } = require("mongoose");
 const usersRouter = require("./routes/UsersRouter");
+const courseRouter = require("./routes/CourseRouter");
 const app = express();
 
 const PORT = process.env.PORT || 5000;
@@ -16,6 +17,7 @@ mongoose
 app.use(express.json()); // to parse received data into json
 
 // Routes
-app.use("/", usersRouter) //usersRouter register
+app.use("/", usersRouter) //usersRouter
+app.use("/", courseRouter) //courseRouter
 // start server
 app.listen(PORT, console.log(`Server is running at Port ${PORT}`))
