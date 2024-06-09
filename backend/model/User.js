@@ -36,7 +36,11 @@ const userSchema = new Schema({
     coursesCreated:[{type: Schema.Types.ObjectId, ref: 'Course'}],
     coursesApplied:[{type: Schema.Types.ObjectId, ref: 'Course'}],
     lastLogin: Date,
-});
+},
+{
+    timestamps:true,
+}
+);
 
 // export the model
 module.exports = mongoose.model('User', userSchema);
