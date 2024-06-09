@@ -65,6 +65,12 @@ const usersController = {
             "email": user.email,
             id: user._id
         })
+    }),
+    // profile
+    profile: asyncHandler(async (req, res) => {
+        res.json({
+            "message": "Welcome to Your Profile"
+        })
     })
 }
 
