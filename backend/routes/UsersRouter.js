@@ -1,6 +1,7 @@
 const express = require('express');
 const usersController = require('../controllers/UsersController'); //import the Users controller
 const isAuthenticated = require('../middlewares/isAuthenticated');
+
 //create the users router
 const usersRouter = express.Router();
 
