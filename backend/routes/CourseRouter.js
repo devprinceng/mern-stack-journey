@@ -7,5 +7,7 @@ const courseRouter = express.Router();
 
 //route endpoints
 courseRouter.post('/api/v1/courses/create', isAuthenticated, courseController.create) //create course route
+courseRouter.get('/api/v1/courses/lists', courseController.list) //course lists
+courseRouter.get('/api/v1/courses/:courseId', courseController.getCourseById) //find ourse by ID
 
 module.exports = courseRouter;
