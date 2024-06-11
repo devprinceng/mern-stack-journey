@@ -1,6 +1,7 @@
 //user model
 const User = require('../model/User');
 const Course = require('../model/Course');
+require('../model/CourseSection');
 //initialize packages
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler')
@@ -50,7 +51,21 @@ const courseController = {
        //send the response
        res.status(201)
        res.json({ course });
-    })
+    }),
+
+    //list all courses
+    list: asyncHandler(async (req, res) => {
+        const courses = await Course.find()
+            .populate('sections')
+            .populate({
+                path: 'user',
+                model: "User",
+                select: "username email",
+            });
+
+        res.json(courses);
+    }),
+
 }
 
 module.exports = courseController;
