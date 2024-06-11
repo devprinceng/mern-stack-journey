@@ -65,7 +65,13 @@ const courseController = {
 
         res.json(courses);
     }),
-
+    // find single course
+    getCourseById: asyncHandler(async (req, res) => {
+        const course = await Course.findById(req.params.courseId).populate('sections')
+        
+        res.json(course);
+    }),
+    
 }
 
 module.exports = courseController;
