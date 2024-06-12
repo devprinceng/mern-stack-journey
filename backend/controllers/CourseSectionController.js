@@ -83,7 +83,7 @@ const courseSectionController = {
     update: asyncHandler(async (req, res) => {
         const section = await CourseSection.findByIdAndUpdate(
             req.params.sectionId,
-            req.params.sectionId,
+            req.body,
             { new: true },
         );
 
