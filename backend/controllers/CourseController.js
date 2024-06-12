@@ -76,7 +76,38 @@ const courseController = {
         
         res.json(course);
     }),
-    
+    //update course method
+    update: asyncHandler( async (req, res) => {
+        //find and update course
+        const course = await Course.findByIdAndUpdate(req.params.courseId, req.body, {new:true});
+        
+        if(course){
+            res.json(course)
+        }
+        else{
+            res.status(404);
+            throw new Error('Course not Found');
+        }
+    }),
+    //delete method
+    delete: asyncHandler(async (req, res) => {
+        //find and delete course
+        const course_deleted = await Course.findByIdAndDelete(req.params.courseId);
+        if(course_deleted){
+            //* remove the course from User model
+            await User.updateMany({coursesCreated: req.params.courseId},
+                {
+                    $pull: {coursesCreated: req.params.courseId},
+                }
+            );
+            
+            //! send the response
+            res.json(course_deleted)
+        }else{
+            res.json({message: "Course not Found"});
+        }
+    })
+
 }
 
 module.exports = courseController;
