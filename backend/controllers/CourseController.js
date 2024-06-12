@@ -26,6 +26,7 @@ const courseController = {
     //     res.status(401)
     //     throw new Error("You're not authorized to create a course");
     //    }
+    
        // validate user input
         if(!title || !description || !difficulty || !duration){
             throw new Error('All Fields are required');
@@ -48,6 +49,10 @@ const courseController = {
 
        //! push the course into courseCreated array
        user.coursesCreated.push(course._id);
+
+       //save the user object
+       await user.save();
+
        //send the response
        res.status(201)
        res.json({ course });
