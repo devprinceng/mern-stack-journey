@@ -91,10 +91,20 @@ const courseController = {
     }),
     //delete method
     delete: asyncHandler(async (req, res) => {
+
+        //* find the course
+        const course = await Course.findById(req.params.courseId);
+        console.log(course);
+        //!prevent deletion if a course has students
+        if(course && course.students.length > 0){
+            res.status(404);
+            res.json({message: "Course has Students, cannot delete"});
+            return;// stop execution
+        }
         //find and delete course
         const course_deleted = await Course.findByIdAndDelete(req.params.courseId);
         if(course_deleted){
-            //* remove the course from User model
+            //* remove the course from User (coursesCreated field) model
             await User.updateMany({coursesCreated: req.params.courseId},
                 {
                     $pull: {coursesCreated: req.params.courseId},
@@ -102,7 +112,10 @@ const courseController = {
             );
             
             //! send the response
-            res.json(course_deleted)
+            res.json({
+                message: "Course deleted successfully",
+                data: course_deleted
+            })
         }else{
             res.json({message: "Course not Found"});
         }
